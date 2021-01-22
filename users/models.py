@@ -1,3 +1,4 @@
+import djongo
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -29,3 +30,28 @@ class Scene(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this scene."""
         return reverse('scene-detail', args=[str(self.name)])
+
+
+class ArenaObject(djongo.models.Model):
+    """
+    https://github.com/conix-center/arena-persist/blob/master/server.js#L26
+    const arenaSchema = new mongoose.Schema({
+        object_id: {type: String, required: true, index: true},
+        type: {type: String, required: true, index: true},
+        attributes: Object,
+        expireAt: {type: Date, expires: 0},
+        realm: {type: String, required: true, index: true},
+        namespace: {type: String, required: true, index: true, default: 'public'},
+        sceneId: {type: String, required: true, index: true},
+    }, {
+        timestamps: true,
+    });
+    """
+    object_id = djongo.models.CharField(max_length=200, blank=False)
+    type = djongo.models.CharField(max_length=200, blank=False)
+    attributes = djongo.models.JSONField()
+    expireAt = djongo.models.DateField(default=0)
+    realm = djongo.models.CharField(max_length=200, blank=False)
+    namespace = djongo.models.CharField(max_length=200, blank=False,
+                                        default='public')
+    sceneId = djongo.models.CharField(max_length=200, blank=False)

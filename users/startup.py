@@ -11,7 +11,7 @@ from allauth.socialaccount.models import SocialApp
 from django.conf import settings
 from django.contrib.sites.models import Site
 
-from .models import Scene
+from .models import ArenaObject, Scene
 
 SAPP_PROV = 'google'
 SAPP_NAME = 'Google ARENA OAuth Web'
@@ -45,6 +45,12 @@ def setup_socialapps():
 
 
 def get_persist_scenes():
+
+    # TODO (mwfarb): make valid mongo persist db read
+    p_scenes = ArenaObject.objects.using(
+        'persist').values_list('sceneId', flat=True)
+    print(f'persist scenes: {p_scenes}')
+
     p_scenes = []
     config = settings.PUBSUB
     privkeyfile = settings.MQTT_TOKEN_PRIVKEY
