@@ -210,7 +210,7 @@ DATABASES = {
     },
     'persist': {
         'ENGINE': 'djongo',
-        'NAME': 'mongodb',
+        'NAME': 'arena_persist',
         'CLIENT': {
             'host': 'mongodb://mongodb/arena_persist'
         },

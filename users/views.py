@@ -250,7 +250,7 @@ def my_scenes(request):
 
 def user_scenes(user):
     # update scene list from object persistance db
-    p_scenes = get_persist_scenes()  # TODO (mwfarb): read mongo db directly
+    p_scenes = get_persist_scenes()
     a_scenes = Scene.objects.values_list('name', flat=True)
     for p_scene in p_scenes:
         if p_scene not in a_scenes:

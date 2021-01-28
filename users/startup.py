@@ -31,12 +31,13 @@ def setup_socialapps():
 
 def get_persist_scenes():
 
-    # TODO (mwfarb): relpace with mongo lookup
-    p_scenes = ArenaObject.objects.using(
+    objects = ArenaObject.objects.using(
         'persist').values_list('sceneId', flat=True)
-    print(f'persist scenes: {p_scenes}')
+    # 'persist').all()
+    print(f'persist objects: {objects}')
+    p_scenes = [f'count-persist-{str(len(list(objects)))}']
 
-    p_scenes = []
+    # p_scenes = []
     config = settings.PUBSUB
     privkeyfile = settings.MQTT_TOKEN_PRIVKEY
 

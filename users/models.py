@@ -1,8 +1,8 @@
-import djongo
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from djongo import models as d_models
 
 
 class Scene(models.Model):
@@ -32,7 +32,7 @@ class Scene(models.Model):
         return reverse('scene-detail', args=[str(self.name)])
 
 
-class ArenaObject(djongo.models.Model):
+class ArenaObject(d_models.Model):
     """
     https://github.com/conix-center/arena-persist/blob/master/server.js#L26
     const arenaSchema = new mongoose.Schema({
@@ -47,11 +47,11 @@ class ArenaObject(djongo.models.Model):
         timestamps: true,
     });
     """
-    object_id = djongo.models.CharField(max_length=200, blank=False)
-    type = djongo.models.CharField(max_length=200, blank=False)
-    attributes = djongo.models.JSONField()
-    expireAt = djongo.models.DateField(default=0)
-    realm = djongo.models.CharField(max_length=200, blank=False)
-    namespace = djongo.models.CharField(max_length=200, blank=False,
-                                        default='public')
-    sceneId = djongo.models.CharField(max_length=200, blank=False)
+    object_id = d_models.CharField(max_length=200, blank=False)
+    type = d_models.CharField(max_length=200, blank=False)
+    attributes = d_models.JSONField()
+    expireAt = d_models.DateField(default=0)
+    realm = d_models.CharField(max_length=200, blank=False)
+    namespace = d_models.CharField(
+        max_length=200, blank=False, default='public')
+    sceneId = d_models.CharField(max_length=200, blank=False)

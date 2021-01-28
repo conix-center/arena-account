@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from users.admin import persistsite
 
 urlpatterns = [
     path('user/', include('users.urls')),
     path('user/admin/', admin.site.urls),
+    path('user/admin-persist/', persistsite.urls),
     # path('user/accounts/', include('django.contrib.auth.urls')),
     # path('user/password_reset/done/', auth_views.PasswordResetDoneView.as_view(
     #     template_name='users/password/password_reset_done.html'), name='password_reset_done'),
