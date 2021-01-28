@@ -50,8 +50,10 @@ class ArenaObject(d_models.Model):
     object_id = d_models.CharField(max_length=200, blank=False)
     type = d_models.CharField(max_length=200, blank=False)
     attributes = d_models.JSONField()
-    expireAt = d_models.DateField(default=0)
+    expireAt = d_models.DateTimeField()
     realm = d_models.CharField(max_length=200, blank=False)
     namespace = d_models.CharField(
         max_length=200, blank=False, default='public')
     sceneId = d_models.CharField(max_length=200, blank=False)
+    createdAt = d_models.DateTimeField(auto_now_add=True)
+    updatedAt = d_models.DateTimeField(auto_now=True)
