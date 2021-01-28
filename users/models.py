@@ -50,9 +50,7 @@ class ArenaObject(MongoModels.Model):
     _id = MongoModels.ObjectIdField()
     object_id = MongoModels.CharField(max_length=200, blank=False)
     type = MongoModels.CharField(max_length=200, blank=False)
-    #attributes = MongoModels.JSONField()
-    #attributes = models.ListField()
-    #expireAt = MongoModels.DateTimeField(default=0)
+    attributes = MongoModels.JSONField()
     realm = MongoModels.CharField(max_length=200, blank=False)
     namespace = MongoModels.CharField(
         max_length=200, blank=False, default='public')

@@ -11,4 +11,5 @@ pyyaml
 uritemplate
 drf_yasg
 djongo==1.3.3
+sqlparse==0.2.4
 python-dotenv

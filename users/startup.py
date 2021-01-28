@@ -32,10 +32,21 @@ def setup_socialapps():
 def get_persist_scenes():
 
     objects = ArenaObject.objects.using(
-        'persist').values_list('sceneId', flat=True)
-    # 'persist').all()
+    #    'persist').values_list('sceneId', flat=True)
+     'persist').all()
     print(f'persist objects: {objects}')
     p_scenes = [f'count-persist-{str(len(list(objects)))}']
+    for o in objects.iterator():
+        print(o)
+        print(o._id)
+        print(o.object_id)
+        print(o.type)
+        print(o.realm)
+        print(o.namespace)
+        print(o.sceneId)
+        print(o.createdAt)
+        print(o.updatedAt)
+        print(o.attributes)
 
     # p_scenes = []
     config = settings.PUBSUB
