@@ -1,13 +1,11 @@
 import os
 
-from django.conf.urls import url
-from django.contrib import admin
-from django.urls import include, path, re_path
+from django.urls import path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from . import startup, views
+from . import views
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -37,6 +35,8 @@ urlpatterns = [
     path("login", views.login_request, name="login"),
     path("logout", views.logout_request, name="logout"),
     # path("password_reset", views.password_reset_request, name="password_reset"),
+    path('accounts/social/signup/', views.SocialSignupView.as_view(),
+         name='socialaccount_signup'),
     path("profile", views.user_profile, name="user_profile"),
     path("login_callback", views.login_callback, name="login_callback"),
     path('mqtt_auth', views.mqtt_token, name="mqtt_token"),
@@ -50,6 +50,3 @@ urlpatterns = [
     path('new_scene', views.new_scene, name="new_scene"),
     path('my_scenes', views.my_scenes, name="my_scenes"),
 ]
-
-startup.migrate_persist()
-startup.setup_socialapps()

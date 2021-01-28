@@ -1,10 +1,27 @@
-from allauth.account.forms import PasswordField, SetPasswordField
-from allauth.socialaccount.forms import SignupForm
+from allauth.socialaccount.forms import SignupForm as _SocialSignupForm
 from django import forms
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Scene
+
+class SocialSignupForm(_SocialSignupForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.sociallogin and \
+           self.sociallogin.account.provider in ('google'):
+            name = self.sociallogin.account.extra_data['email'].split('@')[0]
+            self.fields['username'].widget.attrs.update({'value': name})
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get("username")
+        # reject usernames in form on signup: settings.USERNAME_RESERVED
+        if username in settings.USERNAME_RESERVED:
+            msg = f"Sorry, {username} is a reserved word for usernames."
+            self.add_error('username', msg)
 
 
 class NewUserForm(UserCreationForm):
@@ -14,20 +31,6 @@ class NewUserForm(UserCreationForm):
         model = User
         fields = ('first_name', 'last_name', 'email',
                   'username', 'password1', 'password2')
-
-
-class SocialSignupForm(SignupForm):
-
-    def __init__(self, **kwargs):
-        super(SocialSignupForm, self).__init__(**kwargs)
-
-    def save(self, request):
-        # Ensure you call the parent class's save.
-        # .save() returns a User object.
-        user = super(SocialSignupForm, self).save(request)
-        # Add your own processing here.
-        # You must return the original result.
-        return user
 
 
 class UpdateStaffForm(forms.Form):
@@ -51,9 +54,12 @@ class NewSceneForm(forms.Form):
 
 
 class UpdateSceneForm(forms.Form):
-    name = forms.CharField(
-        label='name',
-        required=True)
+    save = forms.CharField(
+        label='save',
+        required=False)
+    delete = forms.CharField(
+        label='delete',
+        required=False)
     public_read = forms.BooleanField(
         label='public_read',
         required=False,
