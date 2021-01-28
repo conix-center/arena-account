@@ -1,0 +1,12 @@
+{
+    "_id" : ObjectId("600ea76a61e79f440df79eb0"),
+    "namespace" : "mwfarb2",
+    "object_id" : "e7c11440-7907-49c3-bb15-484413306edd",
+    "sceneId" : "render",
+    "__v" : 0,
+    "attributes" : { "object_type" : "box", "width" : 1, "height" : 1, "depth" : 1, "position" : { "x" : 0, "y" : 0, "z" : 0 }, "rotation" : { "x" : 0, "y" : 0, "z" : 0 }, "scale" : { "x" : 1, "y" : 1, "z" : 1 } },
+    "createdAt" : ISODate("2021-01-25T11:11:38.210Z"),
+    "realm" : "realm",
+    "type" : "object",
+    "updatedAt" : ISODate("2021-01-25T11:11:38.210Z")
+}

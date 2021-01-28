@@ -1,0 +1,11 @@
+{
+    "_id" : ObjectId("6012e4cc0689bf3dddca31dd"),
+    "object_id" : "box_12",
+    "type" : "object",
+    "expireAt" : ISODate("2021-01-28T16:22:26Z"),
+    "realm" : "realm",
+    "namespace" : "mwfarb",
+    "sceneId" : "admin-persist",
+    "createdAt" : ISODate("2021-01-28T16:22:36.172Z"),
+    "updatedAt" : ISODate("2021-01-28T16:22:36.172Z")
+}
