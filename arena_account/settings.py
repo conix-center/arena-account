@@ -211,7 +211,10 @@ DATABASES = {
     'persist': {
         'ENGINE': 'djongo',
         'NAME': 'arena_persist',
-        # use default local db for testing, no remote connection
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017,
+        }
     }
 }
 
