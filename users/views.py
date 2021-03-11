@@ -1,6 +1,5 @@
 import datetime
 import json
-import logging
 import os
 import re
 import secrets
@@ -31,9 +30,6 @@ from .mqtt import (ANON_REGEX, PUBLIC_NAMESPACE, all_scenes_read_token,
                    generate_arena_token)
 from .persistence import delete_scene_objects, get_persist_scenes
 from .serializers import SceneNameSerializer, SceneSerializer
-
-logger = logging.getLogger(__name__)
-logger.info("views.py load test...")
 
 
 def index(request):
@@ -274,8 +270,10 @@ def get_my_scenes(user):
     """
     # update scene list from object persistance db
     token = all_scenes_read_token()
-    p_scenes = get_persist_scenes(token)
+    p_scenes = get_persist_scenes(token, user)
+    print(str(p_scenes))
     a_scenes = Scene.objects.values_list("name", flat=True)
+    print(str(a_scenes))
     for p_scene in p_scenes:
         if p_scene not in a_scenes:
             s = Scene(

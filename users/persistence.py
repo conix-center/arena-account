@@ -10,23 +10,25 @@ from requests.exceptions import HTTPError
 
 def delete_scene_objects(scene, token: jwt):
     # delete scene from persist
-    config = settings.PUBSUB
-    host = config["mqtt_server"]["host"]
+    host = os.getenv("HOSTNAME")
     # in docker on localhost this url will fail
     url = f"https://{host}/persist/{scene}"
     result = _urlopen(url, token, "DELETE")
     return result
 
 
-def get_persist_scenes(token: jwt):
+def get_persist_scenes(token: jwt, user):
     # request all _scenes from persist
-    config = settings.PUBSUB
-    host = config["mqtt_server"]["host"]
+    host = os.getenv("HOSTNAME")
     # in docker on localhost this url will fail
-    url = f"https://{host}/persist/!allscenes"
-    result = _urlopen(url, token, "GET")
-    if result:
-        return json.loads(result)
+    if user.is_authenticated:
+        if user.is_staff:
+            url = f"https://{host}/persist/!allscenes"
+        else:
+            url = f"https://{host}/persist/{user.username}/!allscenes"
+        result = _urlopen(url, token, "GET")
+        if result:
+            return json.loads(result)
     return []
 
 
@@ -37,10 +39,18 @@ def _urlopen(url, token: jwt, method):
     headers = {"Cookie": f"mqtt_token={token.decode('utf-8')}"}
     cookies = {"mqtt_token": token.decode("utf-8")}
     verify = not settings.DEBUG
+    print(headers)
+    print(cookies)
+    print(verify)
+    print(url)
+    print(method)
     try:
         if method == "GET":
             response = requests.get(
-                url, headers=headers, cookies=cookies, verify=verify
+                url,
+                #headers=headers,
+                cookies=cookies,
+                verify=verify
             )
         elif method == "DELETE":
             response = requests.delete(
@@ -49,6 +59,4 @@ def _urlopen(url, token: jwt, method):
         return response.text
     except (requests.exceptions.ConnectionError, HTTPError) as err:
         print("{0}: ".format(err) + url)
-    except ValueError as err:
-        print(f"{response.text} {0}: ".format(err) + url)
     return None
